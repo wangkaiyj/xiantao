@@ -30,6 +30,7 @@ public:
     Q_INVOKABLE void printExcel(const QJsonArray& ids);
     Q_INVOKABLE QString getAppDir() const;
     Q_INVOKABLE void exportTemplate(const QString& savePath);
+    Q_INVOKABLE QString saveImage(const QString& id, QObject* imageObj);
 
 private slots:
     void onRefreshData(const QList<CTableRow>& rowList);
