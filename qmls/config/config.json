@@ -1,0 +1,73 @@
+{
+	"__readMe__": "role等于id，该id是唯一标识到item（必须有）",
+	
+	"regions": [
+		"仙桃市",
+		"仙桃市本级录入",
+		"沙嘴街道办事处",
+		"干河街道办事处", 
+		"龙华山办事处",
+		"郑场镇", 
+		"毛嘴镇", 
+		"剅河镇", 
+		"三伏潭镇", 
+		"胡场镇", 
+		"长埫口镇", 
+		"西流河镇",
+		"沙湖镇", 
+		"杨林尾镇", 
+		"彭场镇", 
+		"张沟镇", 
+		"郭河镇", 
+		"沔城回族镇",
+		"通海口镇", 
+		"陈场镇",
+		"仙桃工业园", 
+		"九合垸原种场", 
+		"沙湖原种场", 
+		"排湖渔场", 
+		"五湖渔场", 
+		"赵西垸林场", 
+		"刘家垸林场", 
+		"畜禽良种场", 
+		"排湖风景区" 
+	],
+	
+	"itemTemplate": {
+		"xlsxHeight": 64,
+		"columns": [
+			{"role": "region", "name": "所属地区", "pixelWidth": 100, "xlsxWidth": 12},
+			{"role": "name", "name": "姓名", "pixelWidth": 60, "xlsxWidth": 10},
+			{"role": "sex", "name": "性别", "pixelWidth": 44, "xlsxWidth": 8},
+			{"role": "age", "name": "年龄", "pixelWidth": 44, "xlsxWidth": 8},
+			{"role": "edu", "name": "学历", "pixelWidth": 60, "xlsxWidth": 10},
+			{"role": "id", "name": "身份证号", "pixelWidth": 156, "xlsxWidth": 22},
+			{"role": "title", "name": "职称", "pixelWidth": 60, "xlsxWidth": 10},
+			{"role": "uint", "name": "工作单位", "pixelWidth": 156, "xlsxWidth": 22},
+			{"role": "tel", "name": "手机号", "pixelWidth": 90, "xlsxWidth": 13},
+			{"role": "years", "name": "从事统计工作的年限", "pixelWidth": 130, "xlsxWidth": 21},
+			{"role": "trained", "name": "何时何地参加过统计专业培训", "pixelWidth": 180, "xlsxWidth": 28},
+			{"role": "score", "name": "培训成绩", "pixelWidth": 72, "xlsxWidth": 10},
+			{"role": "content", "name": "培训内容", "pixelWidth": 120, "xlsxWidth": 20},
+			{"role": "dual", "name": "是否会计兼统计", "pixelWidth": 108, "xlsxWidth": 18},
+			{"role": "epname", "name": "兼职统计工作的企业名称", "pixelWidth": 156, "xlsxWidth": 24},
+			{"role": "eptype", "name": "企业类别", "pixelWidth": 84, "xlsxWidth": 14},
+			{"role": "place", "name": "工作单位所属地", "pixelWidth": 108, "xlsxWidth": 16}
+		]
+		
+	},
+
+	"statsTemplate": {
+		"colWidth": 80,
+		"columns": [
+			{"name": "仙桃统计局", "role": "unit"},
+			{"name": "统计站", "role": "unit"},
+			{"name": "工业", "role": "eptype"},
+			{"name": "商贸", "role": "eptype"},
+			{"name": "服务业", "role": "eptype"},
+			{"name": "建筑业", "role": "eptype"},
+			{"name": "房地产", "role": "eptype"},
+			{"name": "投资", "role": "eptype"}
+		] 
+	}
+}
