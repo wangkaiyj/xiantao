@@ -37,7 +37,12 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DESTDIR = $${PWD}/../$${TARGET}Exe
+build_pass:CONFIG(debug, debug|release) {
+  unix: TARGET = $$join(TARGET,,,_debug)
+  else: TARGET = $$join(TARGET,,,d)
+}
+
+DESTDIR = $${PWD}/build
 
 include(xlsx/qtxlsx.pri)
 include(FramelessHelper/FramelessHelper.pri)
