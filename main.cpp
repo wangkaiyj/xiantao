@@ -7,6 +7,7 @@
 #include "Framework/appcore.h"
 #include "Framework/models.h"
 #include "FramelessHelper/WindowFramelessHelper.h"
+#include "Framework/imagehelper.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
     }
 
     qmlRegisterType<WindowFramelessHelper>("QtShark.Window", 1, 0, "FramelessHelper");
+    qmlRegisterType<ImageHelper>("org.app.helpers", 1, 0, "ImageHelper");
     qmlRegisterType<CTableModel>("org.app.models", 1, 0, "TableModel");
     qmlRegisterType<CFilterTableModel>("org.app.models", 1, 0, "FilterTableModel");
 

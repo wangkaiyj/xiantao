@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.0
+import org.app.helpers 1.0
 
 Popup {
     id: root
@@ -29,7 +30,7 @@ Popup {
         telRole.text = rowData.tel;
         yearsRole.text = rowData.years;
         if(rowData.unit) unitRole.editText = rowData.unit;
-        else unitRole.currentIndex = -1;
+        else unitRole.currentIndex = 0;
         eptypeRole.currentIndex = eptypeRole.model.indexOf(rowData.eptype);
         trainedRole.text = rowData.trained;
         scoreRole.text = rowData.score;
@@ -37,8 +38,8 @@ Popup {
         dualRole.currentIndex = eptypeRole.model.indexOf(rowData.dual);
         epnameRole.text = rowData.epname;
         if(rowData.place) placeRole.editText = rowData.place;
-        else placeRole.currentIndex = -1;
-        photoRole.refresh(appCore.getAppDir()+rowData.photo);
+        else placeRole.currentIndex = 0;
+        photoRole.source = "file:///"+appCore.getAppDir()+rowData.photo;
     }
 
     function submit() {
@@ -46,6 +47,7 @@ Popup {
                 !unitRole.editText || !eptypeRole.currentText || !placeRole.editText) {
             return;
         }
+        imageHelper.saveImage(appCore.getAppDir()+"/photos/"+idRole.text+".png");
         var data = {
             name: nameRole.text,
             sex: sexRole.currentText,
@@ -64,7 +66,7 @@ Popup {
             dual: dualRole.currentText,
             epname: epnameRole.text,
             place: placeRole.editText,
-            photo: appCore.savePhoto(idRole.text,photoRole.photoUrl)
+            photo: "/photos/"+idRole.text+".png"
         }
         appCore.infoModel.updateRow(idRole.text,data);
         root.close();
@@ -77,7 +79,7 @@ Popup {
         property int mode: 0
         onAccepted: {
             if(mode === 0) {
-                photoRole.refresh(appCore.loadPhoto(fileUrl));
+                photoRole.source = fileUrl;
             }
             else if( mode === 1) {
                 appCore.exportDocument(fileUrl,dataId);
@@ -109,7 +111,7 @@ Popup {
         dataId = "";
         isEdit = false;
         nameRole.text = "";
-        sexRole.currentIndex = -1;
+        sexRole.currentIndex = 0;
         ageRole.text = "";
         regionRole.text = "";
         eduRole.text = "";
@@ -117,15 +119,15 @@ Popup {
         titleRole.text = "";
         telRole.text = "";
         yearsRole.text = "";
-        unitRole.currentIndex = -1;
-        eptypeRole.currentIndex = -1;
+        unitRole.currentIndex = 0;
+        eptypeRole.currentIndex = 0;
         trainedRole.text = "";
         scoreRole.text = "";
         contentRole.text = "";
-        dualRole.currentIndex = -1;
+        dualRole.currentIndex = 0;
         epnameRole.text = "";
-        placeRole.currentIndex = -1;
-        photoRole.sourceComponent = null;
+        placeRole.currentIndex = 0;
+        photoRole.source = "";
     }
 
 
@@ -525,29 +527,17 @@ Popup {
                 border.width: 1
                 border.color: imageArea.containsMouse ? Theme.border_hov_color : "#ececec"
 
-                Component {
-                    id: photoComponent
-                    Image {
-                        anchors.fill: parent
-                        fillMode: Image.PreserveAspectFit
+                Image {
+                    id: photoRole
+                    anchors.fill: parent
+                    cache: false
+                    fillMode: Image.PreserveAspectFit
+                    onSourceChanged: imageHelper.loadImage(source)
+                    ImageHelper {
+                        id: imageHelper
                     }
                 }
 
-                Loader {
-                    id: photoRole
-                    anchors.fill: parent
-                    function refresh(url) {
-                        photoUrl = url;
-                        sourceComponent = null;
-                        sourceComponent = photoComponent;
-                    }
-                    property string photoUrl
-                    onLoaded: {
-                        if(item) {
-                            item.source = "file:///"+photoRole.photoUrl
-                        }
-                    }
-                }
                 MouseArea {
                     id: imageArea
                     anchors.fill: parent

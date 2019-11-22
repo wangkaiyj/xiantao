@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         Framework/appcore.cpp \
         Framework/configs.cpp \
+        Framework/imagehelper.cpp \
         Framework/models.cpp \
         Framework/sqlitework.cpp \
         Framework/tools.cpp \
@@ -50,6 +51,7 @@ include(FramelessHelper/FramelessHelper.pri)
 HEADERS += \
     Framework/appcore.h \
     Framework/configs.h \
+    Framework/imagehelper.h \
     Framework/models.h \
     Framework/sqlitework.h \
     Framework/tools.h
