@@ -64,6 +64,10 @@ import QtQuick.Window 2.2
 ScrollView {
     id: root
 
+    /*! 自适应
+    */
+    property int adaptWidth: 1
+    property int fixedWidth: 1
     /*! \qmlproperty bool BasicTableView::alternatingRowColors
 
         This property is set to \c true if the view alternates the row color.
@@ -614,6 +618,14 @@ ScrollView {
                             var columnItem = columnModel.get(index).columnItem
                             item.__rowItem = rowitem
                             item.__column = columnItem
+                            item.width = Qt.binding(function(){
+                                if(!columnItem.resizable) {
+                                    return columnItem.width;
+                                }
+                                else {
+                                    return columnItem.width*(root.width-__verticalScrollBar.width-root.fixedWidth)/root.adaptWidth;
+                                }
+                            });
                         }
                     }
                 }
@@ -644,7 +656,14 @@ ScrollView {
                         id: headerRowDelegate
                         readonly property int column: index
                         z:-index
-                        width: modelData.width
+                        width: {
+                            if(!modelData.resizable) {
+                                return modelData.width;
+                            }
+                            else {
+                                return modelData.width*(root.width-__verticalScrollBar.width-root.fixedWidth)/root.adaptWidth;
+                            }
+                        }
                         implicitWidth: columnCount === 1 ? viewport.width + __verticalScrollBar.width : headerStyle.implicitWidth
                         visible: modelData.visible
                         height: headerStyle.height
@@ -757,7 +776,9 @@ ScrollView {
                             enabled: modelData.resizable && columnCount > 0
                             onPositionChanged:  {
                                 var newHeaderWidth = modelData.width + (mouseX - offset)
+                                root.adaptWidth += mouseX - offset;
                                 modelData.width = Math.max(minimumSize, newHeaderWidth)
+
                             }
 
                             onDoubleClicked: getColumn(index).resizeToContents()

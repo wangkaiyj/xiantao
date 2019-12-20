@@ -8,7 +8,7 @@ ApplicationWindow {
     id: applicationWindow
 
     visible: true
-    minimumWidth: 1024
+    minimumWidth: 1028
     minimumHeight: 920
     flags: Qt.Window | Qt.FramelessWindowHint
     font: Theme.text_font
@@ -119,6 +119,7 @@ ApplicationWindow {
         Home {
             onLogined: {
                 tabBar.currentIndex = mode+1;
+                applicationWindow.showMaximized();
             }
         }
 

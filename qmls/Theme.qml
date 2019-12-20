@@ -29,9 +29,10 @@ QtObject {
     property color border_hov_color: "#10ACEC"
 
     property color table_background_color: "#FFFFFF"
+    property color table_odd_color: "#F5F5F6"
     property color table_head_background_color: "#10ACEC"
     property color table_head_text_color: "#FFFFFF"
-    property color table_row_hov_color: "#F5F5F6"
+    property color table_row_hov_color: "#C1C1C1"
 
     property color scroll_handle_nor_color: "#C1C1C1"
     property color scroll_handle_hov_color: "#A8A8A8"

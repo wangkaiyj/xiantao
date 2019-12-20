@@ -36,23 +36,23 @@
 	"itemTemplate": {
 		"xlsxHeight": 64,
 		"columns": [
-			{"role": "region", "name": "所属地区", "pixelWidth": 100, "xlsxWidth": 12},
-			{"role": "name", "name": "姓名", "pixelWidth": 60, "xlsxWidth": 10},
-			{"role": "sex", "name": "性别", "pixelWidth": 44, "xlsxWidth": 8},
-			{"role": "age", "name": "年龄", "pixelWidth": 44, "xlsxWidth": 8},
-			{"role": "edu", "name": "学历", "pixelWidth": 60, "xlsxWidth": 10},
-			{"role": "id", "name": "身份证号", "pixelWidth": 156, "xlsxWidth": 22},
-			{"role": "title", "name": "职称", "pixelWidth": 60, "xlsxWidth": 10},
-			{"role": "uint", "name": "工作单位", "pixelWidth": 156, "xlsxWidth": 22},
-			{"role": "tel", "name": "手机号", "pixelWidth": 90, "xlsxWidth": 13},
-			{"role": "years", "name": "从事统计工作的年限", "pixelWidth": 130, "xlsxWidth": 21},
+			{"role": "region", "name": "所属地区", "pixelWidth": 100, "xlsxWidth": 12, "fixed": true, "sortable": true},
+			{"role": "name", "name": "姓名", "pixelWidth": 60, "xlsxWidth": 10, "fixed": true, "sortable": true},
+			{"role": "sex", "name": "性别", "pixelWidth": 44, "xlsxWidth": 8, "fixed": true, "sortable": true},
+			{"role": "age", "name": "年龄", "pixelWidth": 44, "xlsxWidth": 8, "fixed": true, "sortable": true},
+			{"role": "edu", "name": "学历", "pixelWidth": 60, "xlsxWidth": 10, "fixed": true, "sortable": true},
+			{"role": "identity", "name": "身份证号", "pixelWidth": 156, "xlsxWidth": 22, "fixed": true},
+			{"role": "title", "name": "职称", "pixelWidth": 60, "xlsxWidth": 10, "fixed": true},
+			{"role": "unit", "name": "工作单位", "pixelWidth": 156, "xlsxWidth": 22, "fixed": true},
+			{"role": "tel", "name": "手机号", "pixelWidth": 90, "xlsxWidth": 13, "fixed": true},
+			{"role": "years", "name": "从事统计工作的年限", "pixelWidth": 130, "xlsxWidth": 21, "fixed": true},
 			{"role": "trained", "name": "何时何地参加过统计专业培训", "pixelWidth": 180, "xlsxWidth": 28},
-			{"role": "score", "name": "培训成绩", "pixelWidth": 72, "xlsxWidth": 10},
+			{"role": "score", "name": "培训成绩", "pixelWidth": 72, "xlsxWidth": 10, "fixed": true},
 			{"role": "content", "name": "培训内容", "pixelWidth": 120, "xlsxWidth": 20},
 			{"role": "dual", "name": "是否会计兼统计", "pixelWidth": 108, "xlsxWidth": 18},
 			{"role": "epname", "name": "兼职统计工作的企业名称", "pixelWidth": 156, "xlsxWidth": 24},
 			{"role": "eptype", "name": "企业类别", "pixelWidth": 84, "xlsxWidth": 14},
-			{"role": "place", "name": "工作单位所属地", "pixelWidth": 108, "xlsxWidth": 16}
+			{"role": "place", "name": "工作单位所属地", "pixelWidth": 108, "xlsxWidth": 16, "fixed": true, "sortable": true}
 		]
 		
 	},

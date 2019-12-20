@@ -11,7 +11,7 @@ Popup {
     closePolicy: Popup.NoAutoClose
     padding: 20
     width: 500
-    height: 760
+    height: 804
 
     property bool isEdit: false
     property string dataId
@@ -25,7 +25,7 @@ Popup {
         ageRole.text = rowData.age;
         regionRole.text = rowData.region;
         eduRole.text = rowData.edu;
-        idRole.text = rowData.id;
+        identityRole.text = rowData.identity;
         titleRole.text = rowData.title;
         telRole.text = rowData.tel;
         yearsRole.text = rowData.years;
@@ -43,18 +43,23 @@ Popup {
     }
 
     function submit() {
-        if(!nameRole.text || !regionRole.text || !idRole.text ||
+        if(!nameRole.text || !regionRole.text ||
                 !unitRole.editText || !eptypeRole.currentText || !placeRole.editText) {
             return;
         }
-        imageHelper.saveImage(appCore.getAppDir()+"/photos/"+idRole.text+".png");
+        var infoId = identityRole.text;
+        if(!infoId) {
+            infoId = Qt.md5(new Date().toString());
+        }
+        console.log("工作单位",placeRole.editText);
+        imageHelper.saveImage(appCore.getAppDir()+"/photos/"+infoId+".png");
         var data = {
             name: nameRole.text,
             sex: sexRole.currentText,
             age: ageRole.text,
             region: regionRole.text,
             edu: eduRole.text,
-            id: idRole.text,
+            identity: identityRole.text,
             title: titleRole.text,
             tel: telRole.text,
             years: yearsRole.text,
@@ -66,9 +71,9 @@ Popup {
             dual: dualRole.currentText,
             epname: epnameRole.text,
             place: placeRole.editText,
-            photo: "/photos/"+idRole.text+".png"
+            photo: "/photos/"+infoId+".png"
         }
-        appCore.infoModel.updateRow(idRole.text,data);
+        appCore.infoModel.updateRow(infoId,data);
         root.close();
     }
 
@@ -115,7 +120,7 @@ Popup {
         ageRole.text = "";
         regionRole.text = "";
         eduRole.text = "";
-        idRole.text = "";
+        identityRole.text = "";
         titleRole.text = "";
         telRole.text = "";
         yearsRole.text = "";
@@ -266,17 +271,15 @@ Popup {
                         Layout.preferredWidth: 60
                         verticalAlignment: Text.AlignVCenter
                         font: Theme.text_font
-                        text: qsTr("身份证号（必填）")
+                        text: qsTr("身份证号")
                         wrapMode: Text.WordWrap
-                        color: idRole.text ? "#000" : "red"
                     }
                     TextField {
-                        id: idRole
+                        id: identityRole
                         Layout.fillHeight: true
                         Layout.preferredWidth: 200
                         font: Theme.text_font
-                        text: root.dataId
-                        enabled: (root.isEdit && !root.dataId) ? true : false
+                        enabled: root.isEdit
                         validator: RegExpValidator { regExp: /[0-9A-z]+/ }
                         maximumLength: 18
                     }
@@ -322,7 +325,7 @@ Popup {
                 RowLayout {
                     Layout.preferredHeight: 48
                     Layout.fillWidth: true
-                    spacing: 0
+                    spacing: 12
                     Label {
                         Layout.fillHeight: true
                         Layout.preferredWidth: 48
@@ -331,14 +334,19 @@ Popup {
                         text: qsTr("从事统计工作的年限")
                         wrapMode: Text.WordWrap
                     }
-                    TextField {
-                        id: yearsRole
-                        Layout.leftMargin: 12
+                    ScrollView {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        font: Theme.text_font
-                        enabled: root.isEdit
-                        validator: IntValidator{bottom:0; top:200}
+                        background: Rectangle {
+                            border.width: 1
+                            border.color: "#BDBDBD"
+                        }
+                        TextArea {
+                            id: yearsRole
+                            font: Theme.text_font
+                            readOnly: !root.isEdit
+                            wrapMode: Text.WordWrap
+                        }
                     }
                 }
 
@@ -387,7 +395,7 @@ Popup {
                 RowLayout {
                     Layout.preferredHeight: 48
                     Layout.fillWidth: true
-                    spacing: 0
+                    spacing: 12
                     Label {
                         Layout.fillHeight: true
                         Layout.preferredWidth: 48
@@ -396,13 +404,19 @@ Popup {
                         text: qsTr("何时何地参加过统计培训")
                         wrapMode: Text.WordWrap
                     }
-                    TextField {
-                        id: trainedRole
-                        Layout.leftMargin: 12
+                    ScrollView {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        font: Theme.text_font
-                        enabled: root.isEdit
+                        background: Rectangle {
+                            border.width: 1
+                            border.color: "#BDBDBD"
+                        }
+                        TextArea {
+                            id: trainedRole
+                            font: Theme.text_font
+                            readOnly: !root.isEdit
+                            wrapMode: Text.WordWrap
+                        }
                     }
                 }
 
@@ -429,7 +443,7 @@ Popup {
                 }
 
                 RowLayout {
-                    Layout.preferredHeight: 32
+                    Layout.preferredHeight: 96
                     Layout.fillWidth: true
                     spacing: 0
                     Label {
@@ -438,15 +452,22 @@ Popup {
                         verticalAlignment: Text.AlignVCenter
                         font: Theme.text_font
                         text: qsTr("培训内容")
-                        wrapMode: Text.WordWrap
                     }
-                    TextField {
-                        id: contentRole
+                    ScrollView {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        font: Theme.text_font
-                        enabled: root.isEdit
+                        background: Rectangle {
+                            border.width: 1
+                            border.color: "#BDBDBD"
+                        }
+                        TextArea {
+                            id: contentRole
+                            font: Theme.text_font
+                            readOnly: !root.isEdit
+                            wrapMode: Text.WordWrap
+                        }
                     }
+
                 }
 
                 RowLayout {
@@ -475,7 +496,7 @@ Popup {
                 RowLayout {
                     Layout.preferredHeight: 48
                     Layout.fillWidth: true
-                    spacing: 0
+                    spacing: 12
                     Label {
                         Layout.fillHeight: true
                         Layout.preferredWidth: 48
@@ -484,13 +505,19 @@ Popup {
                         text: qsTr("兼职统计工作的企业名称")
                         wrapMode: Text.WordWrap
                     }
-                    TextField {
-                        id: epnameRole
-                        Layout.leftMargin: 12
+                    ScrollView {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        font: Theme.text_font
-                        enabled: root.isEdit
+                        background: Rectangle {
+                            border.width: 1
+                            border.color: "#BDBDBD"
+                        }
+                        TextArea {
+                            id: epnameRole
+                            font: Theme.text_font
+                            readOnly: !root.isEdit
+                            wrapMode: Text.WordWrap
+                        }
                     }
                 }
 
@@ -525,7 +552,7 @@ Popup {
                 width: 190
                 height: 158
                 border.width: 1
-                border.color: imageArea.containsMouse ? Theme.border_hov_color : "#ececec"
+                border.color: hoverHandler.hovered ? Theme.border_hov_color : "#ececec"
 
                 Image {
                     id: photoRole
@@ -538,15 +565,21 @@ Popup {
                     }
                 }
 
-                MouseArea {
-                    id: imageArea
-                    anchors.fill: parent
-                    hoverEnabled: true
+                Zutton {
+                    anchors.centerIn: parent
+                    visible: hoverHandler.hovered
+                    normalImage: "qrc:/qmls/images/tianjia.png"
+                    hoveredImage: "qrc:/qmls/images/tianjia_hover.png"
+                    text: "像素358*441"
                     onClicked: {
                         if(root.isEdit) {
                             root.importPhoto();
                         }
                     }
+                }
+
+                HoverHandler {
+                    id: hoverHandler
                 }
             }
         }
