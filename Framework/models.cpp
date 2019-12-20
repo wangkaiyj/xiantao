@@ -1,4 +1,5 @@
 #include "models.h"
+#include <QDebug>
 
 void CTableRow::setId(const QString& id)
 {
@@ -50,12 +51,12 @@ void CTableModel::init(const QList<TableColumn>& columnList, bool checkable, boo
     if (checkable)
     {
         m_hashRole[curRole] = CHECKROLE;
-        m_columnList.push_back({CHECKROLE, "", CheckBox, 32, false});
+        m_columnList.push_back({ CHECKROLE, "", CheckBox, 32, false });
     }
     if (enableIndex)
     {
         m_hashRole[++curRole] = INDEXROLE;
-        m_columnList.push_back({ INDEXROLE, u8"ÐòºÅ", Text });
+        m_columnList.push_back({ INDEXROLE, u8"ÐòºÅ", Text, 48, false });
     }
     for (auto i = 0; i < columnList.length(); ++i)
     {
@@ -81,7 +82,7 @@ void CTableModel::setRowList(const QList<CTableRow>& rowList)
     emit rowCountChanged();
 }
 
-QPair<int,int> CTableModel::refreshRowList(const QList<CTableRow>& rowList)
+QPair<int, int> CTableModel::refreshRowList(const QList<CTableRow>& rowList)
 {
     QList<CTableRow> newList;
     for (auto& rowData : rowList)
@@ -115,7 +116,7 @@ QPair<int,int> CTableModel::refreshRowList(const QList<CTableRow>& rowList)
     emit refreshData(rowList);
     emit rowCountChanged();
 
-    return {newList.length(), rowList.length()-newList.length()};
+    return {newList.length(), rowList.length() - newList.length()};
 }
 
 const QList<CTableRow>& CTableModel::rowList() const
@@ -162,7 +163,7 @@ QJsonObject CTableModel::columnData(int column) const
     }
     TableColumn tableColumn = m_columnList[column];
     return QJsonObject{ {"role", tableColumn.role}, {"name", tableColumn.name},
-        {"width", tableColumn.width }, {"resizable", tableColumn.resizable},
+        {"width", tableColumn.width }, {"resizable", tableColumn.resizable}, {"sortable", tableColumn.sortable},
         {"type", tableColumn.type}
     };
 }
@@ -216,6 +217,46 @@ QVariant CTableModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> CTableModel::roleNames() const
 {
     return m_hashRole;
+}
+
+void CTableModel::sort(const QString& role, bool desc)
+{
+    beginResetModel();
+    std::stable_sort(m_rowList.begin(), m_rowList.end(), [role, desc](const CTableRow & lhs, const CTableRow & rhs)
+    {
+        QVariant ldata = lhs.value(role);
+        QVariant rdata = rhs.value(role);
+        bool isInt = false;
+        ldata.toInt(&isInt);
+        if (isInt)
+        {
+            isInt = false;
+            rdata.toInt(&isInt);
+        }
+        if (isInt)
+        {
+            if (desc)
+            {
+                return ldata.toInt() > rdata.toInt();
+            }
+            else
+            {
+                return ldata.toInt() < rdata.toInt();
+            }
+        }
+        else
+        {
+            if (desc)
+            {
+                return ldata.toString() > rdata.toString();
+            }
+            else
+            {
+                return ldata.toString() < rdata.toString();
+            }
+        }
+    });
+    endResetModel();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -299,6 +340,22 @@ QJsonArray CFilterTableModel::filterIds() const
         }
     }
     return ids;
+}
+
+void CFilterTableModel::setSortValue(const QJsonObject& value)
+{
+    m_sortValue = value;
+    CTableModel* tableModel = qobject_cast<CTableModel*>(sourceModel());
+    if (tableModel)
+    {
+        tableModel->sort(value.value("role").toString(), value.value("decs").toBool());
+    }
+    emit sortValueChanged();
+}
+
+const QJsonObject& CFilterTableModel::sortValue() const
+{
+    return m_sortValue;
 }
 
 void CFilterTableModel::updateFilter()

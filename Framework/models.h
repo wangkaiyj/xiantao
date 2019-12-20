@@ -53,12 +53,13 @@ public:
         DelegateType type = Text;
         int width = 52;
         bool resizable = true;
+        bool sortable = false;
     };
 
     void init(const QList<TableColumn>& columnList, bool checkable, bool enableIndex, bool enableOper);
 
     void setRowList(const QList<CTableRow>& rowList);
-    QPair<int,int> refreshRowList(const QList<CTableRow>& rowList);
+    QPair<int, int> refreshRowList(const QList<CTableRow>& rowList);
     const QList<CTableRow>& rowList() const;
     CTableRow rowData(int row) const;
 
@@ -76,6 +77,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+
+    void sort(const QString& role, bool desc);
 
 signals:
     void refreshData(const QList<CTableRow>& rowList);
@@ -96,6 +99,7 @@ class CFilterTableModel: public QSortFilterProxyModel
     Q_PROPERTY(QJsonArray range WRITE setRange READ range NOTIFY rangeChanged)
     Q_PROPERTY(QJsonArray filterValue WRITE setFilterValue READ filterValue NOTIFY filterValueChanged)
     Q_PROPERTY(int filterCount READ filterCount NOTIFY filterCountChanged)
+    Q_PROPERTY(QJsonObject sortValue WRITE setSortValue READ sortValue NOTIFY sortValueChanged)
 public:
     explicit CFilterTableModel(QObject* parent = Q_NULLPTR);
     ~CFilterTableModel();
@@ -112,10 +116,14 @@ public:
     int filterCount() const;
     Q_INVOKABLE QJsonArray filterIds() const;
 
+    void setSortValue(const QJsonObject& value);
+    const QJsonObject& sortValue() const;
+
 signals:
     void rangeChanged();
     void filterValueChanged();
     void filterCountChanged();
+    void sortValueChanged();
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const Q_DECL_OVERRIDE;
@@ -131,6 +139,7 @@ private:
 
     QJsonArray m_range;
     QJsonArray m_filterValue;
+    QJsonObject m_sortValue;
 };
 
 #endif
