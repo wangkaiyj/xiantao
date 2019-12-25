@@ -45,5 +45,9 @@
         <file>qmls/images/print_hover.png</file>
         <file>qmls/images/watch.png</file>
         <file>qmls/images/watch_hover.png</file>
+        <file>qmls/images/tianjia.png</file>
+        <file>qmls/images/tianjia_hover.png</file>
+        <file>qmls/images/arrow_down.png</file>
+        <file>qmls/images/arrow_up.png</file>
     </qresource>
 </RCC>
