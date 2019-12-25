@@ -14,10 +14,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 
-    if (QDateTime::currentDateTime() >= QDateTime(QDate(2019, 12, 25), QTime(23, 59, 59)))
-    {
-        return 0;
-    }
+    //if (QDateTime::currentDateTime() >= QDateTime(QDate(2019, 12, 25), QTime(23, 59, 59)))
+    //{
+    //    return 0;
+    //}
 
     qmlRegisterType<WindowFramelessHelper>("QtShark.Window", 1, 0, "FramelessHelper");
     qmlRegisterType<ImageHelper>("org.app.helpers", 1, 0, "ImageHelper");
